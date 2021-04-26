@@ -1,0 +1,294 @@
+/*НАСТРОЙКИ РАСПОЛОЖЕНИЯ БЛОКОВ*/
+
+    /*Расположение панели авторизации и навигации в углу экрана*/
+    .admin_nav {
+        margin-top: 0.5vw;
+        margin-left: 85vw;
+        width: 200px;
+    }
+
+    /*Расположение базы терминов*/
+    .terms_db {
+        position: fixed;
+        top: 8vw;
+        right: 50vw;
+        left: 3vw;
+
+    }
+
+    /*Заголовок над базой терминов*/
+    #db_title {
+        float: left;
+    }
+
+    /*Пагинация на странице с БД терминов*/
+    .paginator_base {
+        position: fixed;
+        bottom: 1vw;
+        left: 3vw;
+    }
+
+    /*Класс для расположения кнопок в панели админа, странице авторизации и регистрации*/
+    .admin_auth {
+        position: fixed;
+        top: 19vw;
+        right: 60vw;
+    }
+
+    /*Форма для добавления нового термина в terms_add.html*/
+    .add_term {
+        width: 700px;
+        margin-top: 1vw;
+        margin-left: 9vw;
+    }
+
+    /*Надпись "Добавление термина" в terms_add.html*/
+    .term_title {
+        margin-top: 7vw;
+        margin-left: 9vw;
+    }
+
+    /*Настройки расположения для тега form, в котором находится поисковая строка на главной странице*/
+    .search_dict {
+        position: fixed;
+        top: 17vw;
+        right: 63vw;
+    }
+
+    /*div внутри блока content в index.html, в котором завернуты результаты поиска*/
+    .term {
+        position: fixed;
+        right: 62vw;
+        top: 22vw;
+        width: 550px;
+        height: 500px;
+        cursor: default;
+        overflow-y: auto;
+    }
+
+    /*Обтекаемость слева для поля поиска на главной странице*/
+    /*Для того, чтобы кнопка с "лупой" была рядом со строкой, а не под ней*/
+    #search_input {
+        float: left;
+    }
+
+    /*Кнопка поиска рядом с поисковой строкой на главной*/
+    #search_button {
+        color: #5264AE;
+        font-size: 20px;
+        background: none;
+        border: none;
+        margin-top: 15px;
+    }
+
+/*НАСТРОЙКИ ДЛЯ ВНЕШНЕГО ВИДА*/
+
+/*Делаем закос под "гугловский" стиль поисковой строки*/
+#search_input {
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+    width: 500px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+#search_input:focus {
+    outline: none;
+}
+
+.search_label {
+    color: #999;
+    font-size: 18px;
+    position: absolute;
+    pointer-events: none;
+    left: 10px;
+    top: 15px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+#search_input:focus ~ label, input:valid ~ label {
+    top: -24px;
+    font-size: 18px;
+    color: #5264AE;
+}
+
+.bar {
+    position: relative;
+    display: block;
+    width: 528px;
+}
+
+input,
+input:active,
+input:focus {
+    outline: none;
+}
+
+.bar:before, .bar:after {
+    content: "";
+    height: 3px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+#search_input:focus ~ .bar:before,
+#search_input:focus ~ .bar:after {
+    width: 50%;
+}
+
+a {
+    margin-top: 5px;
+}
+
+/*Убираем рамочку, которая появляется при наведении или нажатии на кнопку*/
+button,
+button:active,
+button:focus {
+    outline: none;
+}
+
+/*Настройки для input search*/
+
+input[type=text]::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type=text]::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+input[type=text]::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type=text]::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+/*МЕДИА ЗАПРОСЫ*/
+
+@media screen and (max-width: 1390px) {
+    #search_input {
+        width: 400px;
+    }
+
+    .bar {
+        width: 428px;
+    }
+
+    .search_dict {
+        top: 23vw;
+        right: 63vw;
+    }
+
+}
+
+@media screen and (max-width: 1440px) {
+
+    #search_input {
+        width: 400px;
+    }
+
+    .bar {
+        width: 428px;
+    }
+
+    .search_dict {
+        top: 20vw;
+        right: 62vw;
+    }
+
+    .term {
+        top: 25vw;
+        right: 53vw;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    #search_input {
+        width: 40vw;
+    }
+
+    .bar {
+        width: 42vw;
+    }
+
+    .search_dict {
+        top: 29vw;
+        right: 55vw;
+    }
+
+    .term {
+        top: 35vw;
+        right: 48vw;
+    }
+
+}
+
+@media screen and (max-width: 1040px) {
+
+    .search_dict {
+        top: 27vw;
+    }
+
+    .term {
+        right: 45vw;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .term {
+        right: 41vw;
+    }
+}
+
+@media screen and (max-width: 950px) {
+
+    .search_dict {
+        top: 28vw;
+        right: 50vw;
+    }
+
+    .term {
+        right: 35vw;
+    }
+}

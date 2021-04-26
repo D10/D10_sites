@@ -1,0 +1,61 @@
+<!--Главная страница сайта, здесь находится: панель администратора, поисковая строка и блок результатов поиска-->
+<!--Наследование основного вида сайта из layout.html-->
+{% extends "layout.html" %}
+
+{% block title %}MeDictionary{% endblock %}
+
+
+<!--Блок, содержащий функции, доступные только администраторам-->
+{% block admin_button %}
+    <div class="admin_nav">
+
+        {% if request.user.is_authenticated %}
+                Добро пожаловать {{ user.username }}
+                <a href="admin/" class="btn btn-primary"><i class="fas fa-sitemap"></i>Управление сайтом</a>
+                <a href="{% url 'admin_panel' %}" class="btn btn-primary"><i class="fas fa-tools"></i> Кабинет Админа</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger" onclick="return"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-danger"><i class="fas fa-key"></i> Вход для Админа</a>
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block search %}
+
+<!--Форма поисковой строки-->
+<div id="search">
+    <form class="search_dict" action="{% url 'home' %}" method="get">
+        <input type="search" required name="search" id="search_input" autocomplete="off">
+        <button id="search_button"><i class="fas fa-search"></i></button>
+        <span class="bar"></span>
+        <label class="search_label"> <i class="fas fa-search-plus"></i> <b>Введите Ваш запрос</b></label>
+    </form>
+</div>
+
+{% endblock %}
+
+<!--Результат поиска (тут условный оператор if - если термин пристутствует в БД, то
+все результаты выводятся за счет цикла for, в противном случае выводится сообщение о том, что запрос не найден-->
+{% block content %}
+
+    <div class="term">
+        {% if translations %}
+            {% for item in translations %}
+                <div>
+                    <h4 class="terms">{{ item.term }}</h4><br>
+                    <em class="terms">{{ item.translation }}</em><br>
+                    <em class="terms">{{ item.another_translations }}</em><br><br>
+                    <p class="terms">{{ item.definition }}</p>
+                </div>
+                <br><br>
+            {% endfor %}
+        {% elif translations == 0 %}
+            <h3></h3>
+        {% else %}
+            <h3>Ничего не найдено</h3>
+            <br>
+            <em>Возможно, нужный Вам термин еще не добавлен на наш сайт, мы активно работаем над нашей терминологмческой базой :-). Также проверьте Ваш запрос на точность и на наличие ошибок. Спасибо за понимание!</em>
+        {% endif %}
+    </div>
+{% endblock %}

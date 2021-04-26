@@ -1,0 +1,35 @@
+<!--Страница для добавления нового термина в базу данных-->
+<!--Наследование основного вида сайта из layout.html-->
+{% extends 'layout.html' %}
+
+{% block title %}Добавление термина{% endblock %}
+
+{% block admin_button %}
+    <div class="admin_nav">
+        Добро пожаловать {{ user.username }}
+        <a href="{% url 'admin_panel' %}" class="btn btn-primary"><i class="fas fa-tools"></i> Кабинет Админа</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <h2 class="term_title">Добавление термина</h2>
+
+    <form action="{% url 'add_term' %}" method="post" class="add_term">
+
+    <!--csrf токен и вывод полей для добавления нового термина в БД-->
+    <!--(Настройки для полей смотреть в forms.py)-->
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!--Кнопка добавления термина в БД (само действие добавления заложено в тег form)-->
+    <button type="submit" class="btn btn-primary btn-block">
+        <i class="fas fa-plus"></i>Добавить термин
+    </button>
+
+    </form>
+
+
+
+{% endblock %}

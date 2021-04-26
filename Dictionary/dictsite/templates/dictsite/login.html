@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Вход для администратора{% endblock %}
+
+
+{% block admin_button %}
+    <div class="admin_nav">
+        <a href="{% url 'home' %}" class="btn btn-primary"><i class="fas fa-tools"></i> На главную</a>
+    </div>
+{% endblock %}
+
+{% block search %}
+
+    <div class="admin_auth">
+
+        <h1>Вход для Администратора сайта</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    
+
+    </div>
+
+{% endblock %}

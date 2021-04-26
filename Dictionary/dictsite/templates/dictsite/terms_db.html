@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+    background-attachment: scroll;
+{% endblock %}
+
+{% block title %}База терминов{% endblock %}
+
+
+{% block admin_button %}
+    <div class="admin_nav">
+        Добро пожаловать {{ user.username }}
+        <a href="{% url 'admin_panel' %}" class="btn btn-primary"><i class="fas fa-tools"></i> Кабинет Админа</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger" onclick="return"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+    </div>
+{% endblock %}
+
+{% block search %}
+
+        <div class="terms_db">
+            <span>
+                <h1 id="db_title">Общая база терминов</h1>
+                <form action="{% url "terms_db" %}" method="get">
+                    <input name="db_search" type="search" autocomplete="off" class="form-control" width="3vw">
+                </form>
+            </span>
+
+
+            <table class="table">
+              <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Термин</th>
+                    <th scope="col">Перевод</th>
+                    <th scope="col">Переводы</th>
+                    <th scope="col">Значение</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for term in terms %}
+                    <tr>
+                        <th scope="row">{{ term.id }}</th>
+                        <td><b>{{ term.term }}</b></td>
+                        <td><em>{{ term.translation }}</em></td>
+                        <td><em>{{ term.another_translations }}</em></td>
+                        <td>{{ term.definition }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+
+    </div>
+
+{% endblock %}

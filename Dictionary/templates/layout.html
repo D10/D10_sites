@@ -1,0 +1,109 @@
+<!--Шаблон, который задает основной внешний вид сайта и указывет блоки, которые используется на дочерних страницах-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--Подключение метатега viewport для адаптивного дизайна-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--Подключаем библиотеку значков "Font Awesome", CSS файл в директории приложения и bootstrap-->
+    <script src="https://kit.fontawesome.com/57fc93bb96.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'dictsite/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!--Задаем фон для всего сайта и делаем его адаптивным под любое разрешение окна браузера на ПК-->
+    <style>
+
+        body {
+            background-image: url({% static "dictsite/img/background.png" %});
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            overflow-y: auto;
+            scroll-behavior: auto;
+        }
+
+        @media screen and (max-width: 1440px){
+            body {
+                background-image: url({% static "dictsite/img/background_m.png" %});
+            }
+
+        }
+
+        @media screen and (max-width: 1200px) {
+            body {
+                background-image: url({% static "dictsite/img/background_m2.png" %});
+            }
+        }
+
+        @media screen and (max-width: 1020px) {
+            body {
+                background-image: url({% static "dictsite/img/back_mobile.png.png." %});
+                overflow: scroll;
+                background-attachment: scroll;
+                background-position: bottom center;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!--Блок для администраторских инструментов-->
+<div class="admin_panel">
+    {% block admin_button %}
+    {% endblock %}
+</div>
+
+<!--Блок для поисковой строки-->
+    {% block search %}
+    {% endblock %}
+
+
+<!--Блок для основного контента (результаты поиска, поля для добавления данных в БД-->
+<div >
+    {% block content %}
+    {% endblock %}
+</div>
+
+<div class="paginator_base">
+{% if page_obj.has_other_pages %}
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="" aria-disabled="true">Назад</a></li>
+            {% endif %}
+
+            {% for p in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == p %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="" aria-disabled="true">Вперед</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+{% endif %}
+</div>
+</body>
+</html>

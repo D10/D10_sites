@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}Кабинет администратора{% endblock %}
+
+{% block admin_button %}
+    <div class="admin_nav">
+        Добро пожаловать {{ user.username }}
+        <a href="{% url 'home' %}" class="btn btn-primary"><i class="fas fa-home"></i> На главную</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+    </div>
+{% endblock %}
+
+{% block search %}
+
+    <div class="admin_auth">
+
+        <h1>Кабинет Администратора</h1>
+        <div>
+        <a href="{% url 'add_term' %}" class="btn btn-primary" id="add_button"><i class="fas fa-plus"></i> Добавить термин</a>
+        </div>
+        <div>
+        <a href="{% url 'terms_db' %}" class="btn btn-success"><i class="fas fa-database"></i> Просмотр базы терминов</a>
+        </div>
+        <div>
+        <a href="{% url 'register' %}" class="btn btn-warning"><i class="fas fa-users-cog"></i> Регистрация нового админа</a>
+        </div>
+    </div>
+
+{% endblock %}
