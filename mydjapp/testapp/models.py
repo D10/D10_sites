@@ -41,3 +41,18 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['pk']
+
+
+class Reviews(models.Model):
+    email = models.EmailField()
+    name = models.CharField("Имя", max_length=100)
+    text = models.TextField("Сообщение", max_length=5000)
+    parent = models.ForeignKey('self', verbose_name='Родитель', on_delete=models.SET_NULL, blank=True, null=True)
+    news = models.ForeignKey(News, verbose_name='Новость', on_delete=models.CASCADE, related_name='reviews')
+
+    def __str__(self):
+        return f"{self.name} - {self.news}"
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"

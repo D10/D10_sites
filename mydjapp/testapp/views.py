@@ -13,7 +13,7 @@ from rest_framework.views import APIView  # Главный класс DRF, ос�
 from .models import News, Category  # Наши БД
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, UserContactForm  # Форма для добавления новостей
 from .utils import MyMixin  # Просто созданный мной миксин
-from .serializers import NewsListSerializer, NewsDetailSerializer, NewsPostSerializer
+from .serializers import NewsListSerializer, NewsDetailSerializer, NewsPostSerializer, ReviewCreateSerializer
 
 
 class ApiNewsListView(APIView):
@@ -38,6 +38,15 @@ class ApiNewsPost(APIView):
         posts = NewsPostSerializer(data=request.data)
         if posts.is_valid():
             posts.save()
+        return Response(status=201)
+
+
+class ReviewCreateView(APIView):
+
+    def post(self, request):
+        review = ReviewCreateSerializer(data=request.data)
+        if review.is_valid():
+            review.save()
         return Response(status=201)
 
 

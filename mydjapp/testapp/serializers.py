@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from .models import News
+from .models import News, Reviews
 
 
 class NewsListSerializer(serializers.ModelSerializer):
@@ -26,3 +26,9 @@ class NewsPostSerializer(serializers.ModelSerializer):
         model = News
         fields = '__all__'
 
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Reviews
+        fields = '__all__'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category
+from .models import News, Category, Reviews
 from django.utils.safestring import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -40,8 +40,13 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
+class ReviewsAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "news")
+
+
 admin.site.register(News, NewsAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Reviews)
 
 admin.site.site_title = 'Управление новостями'
 admin.site.site_header = 'Управление новостями'
