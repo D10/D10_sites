@@ -1,0 +1,20 @@
+<h2 class="sidebar-title">Popular posts</h2>
+<div class="grid">
+    {% for post in posts %}
+
+        <div class="portfolio-item popular">
+
+            {% if post.photo %}
+                <img src="{{ post.photo.url }}" alt="{{ post.title }}" width="300" height="201" class="mr-3">
+            {% else %}
+                <img src="https://picsum.photos/300/201/?blur=2" alt="" class="mr-3">
+            {% endif %}
+
+            <div class="portfolio-text">
+                <h5><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+                <p>{{ post.author }}<span>|</span>{{ post.created_at|date:"d.m.Y" }}</p>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
