@@ -15,5 +15,6 @@ urlpatterns = [
     path('apinews/', ApiNewsListView.as_view()),
     path('apinews/<int:pk>/', ApiNewsDetailView.as_view()),
     path('apipost/', ApiNewsPost.as_view()),
-    path('review/', ReviewCreateView.as_view())
+    path('review/', ReviewCreateView.as_view()),
+    path('rating/', AddStarRatingView.as_view())
 ]

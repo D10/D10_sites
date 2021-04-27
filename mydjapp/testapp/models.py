@@ -47,7 +47,8 @@ class Reviews(models.Model):
     email = models.EmailField()
     name = models.CharField("Имя", max_length=100)
     text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey('self', verbose_name='Родитель', on_delete=models.SET_NULL, blank=True, null=True)
+    parent = models.ForeignKey('self', verbose_name='Родитель', on_delete=models.SET_NULL,
+                               blank=True, null=True, related_name='children')
     news = models.ForeignKey(News, verbose_name='Новость', on_delete=models.CASCADE, related_name='reviews')
 
     def __str__(self):
@@ -56,3 +57,28 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
+
+
+class RatingStar(models.Model):
+    value = models.SmallIntegerField("Значение", default=0)
+
+    def __str__(self):
+        return f"{self.value}"
+
+    class Meta:
+        verbose_name = "Звезда рейтинга"
+        verbose_name_plural = "Звезды рейтинга"
+        ordering = ["-value"]
+
+
+class Rating(models.Model):
+    ip = models.CharField("IP адрес", max_length=15)
+    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="Звезда")
+    news = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name="новость", related_name='ratings')
+
+    def __str__(self):
+        return f"{self.star} - {self.news}"
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинги"

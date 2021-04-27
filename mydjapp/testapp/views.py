@@ -9,17 +9,25 @@ from django.contrib.auth import login, logout
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView  # Главный класс DRF, основан на Django view
+from django.db import models
 
 from .models import News, Category  # Наши БД
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, UserContactForm  # Форма для добавления новостей
 from .utils import MyMixin  # Просто созданный мной миксин
-from .serializers import NewsListSerializer, NewsDetailSerializer, NewsPostSerializer, ReviewCreateSerializer
+from .serializers import *
+from .service import get_client_ip
 
 
 class ApiNewsListView(APIView):
 
     def get(self, request):  # Данная функция будет срабатывать при get запросе
-        news = News.objects.filter(is_published=True)
+        news = News.objects.filter(is_published=True).annotate(
+            rating_user=models.Case(
+                models.When(ratings__ip=get_client_ip(request), then=True),
+                default=False,
+                output_field=models.BooleanField()
+            ),
+        )
         serializer = NewsListSerializer(news, many=True)  # many=True говорит о том, что у нас будет несколько записей
         return Response(serializer.data)
 
@@ -48,6 +56,16 @@ class ReviewCreateView(APIView):
         if review.is_valid():
             review.save()
         return Response(status=201)
+
+
+class AddStarRatingView(APIView):
+    def post(self, request):  #
+        serializer = CreateRatingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(ip=get_client_ip(request))
+            return Response(status=201)
+        else:
+            return Response(status=400)
 
 
 class HomeNews(MyMixin, ListView):
