@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from .models import *
+from .models import News, Reporter, Reviews, Rating
 
 
 class FilterReviewSerializer(serializers.ListSerializer):
@@ -21,10 +21,11 @@ class RecursiveSerializer(serializers.Serializer):
 
 class NewsListSerializer(serializers.ModelSerializer):
     rating_user = serializers.BooleanField()
+    middle_star = serializers.IntegerField()
 
     class Meta:
         model = News  # Модель для сериализации
-        fields = ('title', 'category', 'rating_user')  # поля для сериализации
+        fields = ("id", 'title', 'category', 'rating_user', 'middle_star')  # поля для сериализации
 
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
@@ -42,14 +43,27 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ('name', 'text', 'children')
 
 
+class ReporterDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reporter
+        fields = "__all__"
+
+
+class ReporterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reporter
+        fields = ("id", "name", "image")
+
+
 class NewsDetailSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field='title', read_only=True)
     reviews = ReviewSerializer(many=True)
+    reporters = ReporterSerializer(read_only=True, many=True)
 
     class Meta:
         model = News  # Модель для сериализации
         fields = ('title', 'category', 'created_at', 'updated_at',
-                  'views', 'content', 'reviews')  # поля для сериализации
+                  'views', 'content', 'reviews', 'reporters')  # поля для сериализации
 
 
 class NewsPostSerializer(serializers.ModelSerializer):
@@ -58,8 +72,8 @@ class NewsPostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# Возможность оставлять отзывы и ставить звезды (привязка ip)
 class CreateRatingSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Rating
         fields = ("star", "news")

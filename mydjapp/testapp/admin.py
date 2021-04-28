@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category, Reviews, Rating, RatingStar
+from .models import News, Category, Reviews, Rating, RatingStar, Reporter
 from django.utils.safestring import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -21,7 +21,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_editable = ('is_published',)  # позволяет редактировать поле таблицы, не открывая ее
     list_filter = ('is_published', 'category')  # позволяет фильтровать данные таблицы по этим полям
     fields = ('title', 'category', 'content', 'photo', 'get_photo',
-              'is_published', 'views', 'created_at', 'updated_at')
+              'is_published', 'views', 'created_at', 'updated_at', 'reporters')
     readonly_fields = ('get_photo', 'views', 'created_at', 'updated_at')
     save_on_top = True
 
@@ -48,11 +48,16 @@ class RatingStarsAdmin(admin.ModelAdmin):
     list_display = ("id", "value")
 
 
+class ReporterAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+
+
 admin.site.register(News, NewsAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Reviews)
 admin.site.register(Rating)
 admin.site.register(RatingStar, RatingStarsAdmin)
+admin.site.register(Reporter)
 
 admin.site.site_title = 'Управление новостями'
 admin.site.site_header = 'Управление новостями'

@@ -11,6 +11,7 @@ class News(models.Model):
     photo = models.ImageField(upload_to='https://picsum.photos/200', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Публикация в ленте')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
+    reporters = models.ManyToManyField('Reporter', verbose_name='Репортеры', related_name='reporters')
     views = models.IntegerField(default=0, verbose_name="Просмотры")
 
     def __str__(self):
@@ -82,3 +83,20 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
+
+
+class Reporter(models.Model):
+    name = models.CharField("Имя", max_length=100)
+    age = models.PositiveSmallIntegerField("Возраст", default=0)
+    description = models.TextField("Описание")
+    image = models.ImageField("Изображение", upload_to="actors/")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('actor_detail', kwargs={"slug": self.name})
+
+    class Meta:
+        verbose_name = "Репортер"
+        verbose_name_plural = "Репортеры"

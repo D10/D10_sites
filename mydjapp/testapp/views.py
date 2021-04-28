@@ -9,27 +9,34 @@ from django.contrib.auth import login, logout
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView  # Главный класс DRF, основан на Django view
+from rest_framework import generics
 from django.db import models
 
-from .models import News, Category  # Наши БД
+from .models import News, Category, Reporter  # Наши БД
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, UserContactForm  # Форма для добавления новостей
 from .utils import MyMixin  # Просто созданный мной миксин
-from .serializers import *
 from .service import get_client_ip
+from .serializers import (
+    NewsListSerializer,
+    NewsDetailSerializer,
+    NewsPostSerializer,
+    ReviewCreateSerializer,
+    CreateRatingSerializer,
+    ReporterSerializer,
+    ReporterDetailSerializer
+)
 
 
-class ApiNewsListView(APIView):
+class ApiNewsListView(generics.ListAPIView):
+    serializer_class = NewsListSerializer
 
-    def get(self, request):  # Данная функция будет срабатывать при get запросе
+    def get_queryset(self):  # Данная функция будет срабатывать при get запросе
+
         news = News.objects.filter(is_published=True).annotate(
-            rating_user=models.Case(
-                models.When(ratings__ip=get_client_ip(request), then=True),
-                default=False,
-                output_field=models.BooleanField()
-            ),
-        )
-        serializer = NewsListSerializer(news, many=True)  # many=True говорит о том, что у нас будет несколько записей
-        return Response(serializer.data)
+            rating_user=models.Count("ratings", filter=models.Q(ratings__ip=get_client_ip(self.request)))
+        ).annotate(
+            middle_star=models.Sum(models.F('ratings__star')) / models.Count(models.F('ratings')))
+        return news
 
 
 class ApiNewsDetailView(APIView):
@@ -66,6 +73,16 @@ class AddStarRatingView(APIView):
             return Response(status=201)
         else:
             return Response(status=400)
+
+
+class ReportersListView(generics.ListAPIView):
+    queryset = Reporter.objects.all()
+    serializer_class = ReporterSerializer
+
+
+class ReportersDetailListView(generics.ListAPIView):
+    queryset = Reporter.objects.all()
+    serializer_class = ReporterDetailSerializer
 
 
 class HomeNews(MyMixin, ListView):
@@ -140,7 +157,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Вы успешно зарегестрировались!')
+            messages.success(request, 'Вы успешно зарегистрировались!')
             return redirect('home')
         else:
             messages.error(request, 'Ошибка регистрации!')
