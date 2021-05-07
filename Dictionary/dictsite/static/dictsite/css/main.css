@@ -240,6 +240,24 @@ input[type="search"]::-webkit-search-results-decoration {
         top: 25vw;
         right: 53vw;
     }
+
+    .admin_auth {
+        left: 5vw;
+    }
+
+    /*Расположение базы терминов*/
+    .terms_db {
+        position: fixed;
+        top: 8vw;
+        right: 50vw;
+        left: 3vw;
+
+    }
+
+    /*Заголовок над базой терминов*/
+    #db_title {
+        float: left;
+    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -262,9 +280,19 @@ input[type="search"]::-webkit-search-results-decoration {
         right: 48vw;
     }
 
+    .admin_auth {
+        left: 5vw;
+    }
+
 }
 
 @media screen and (max-width: 1040px) {
+
+    .admin_nav {
+        margin-top: 0.5vw;
+        margin-left: 75vw;
+        width: 200px;
+    }
 
     .search_dict {
         top: 27vw;
@@ -273,15 +301,61 @@ input[type="search"]::-webkit-search-results-decoration {
     .term {
         right: 45vw;
     }
+
+    .admin_auth {
+        right: 52vw;
+        left: 5vw;
+    }
+
+    .add_term {
+        width: 500px;
+        margin-top: 1vw;
+        margin-left: 9vw;
+    }
 }
 
 @media screen and (max-width: 960px) {
     .term {
         right: 41vw;
     }
+
+    .admin_auth {
+        right: 52vw;
+        left: 5vw;
+    }
 }
 
 @media screen and (max-width: 950px) {
+
+    .admin_nav {
+        margin-top: 0.5vw;
+        margin-left: 75vw;
+        width: 200px;
+    }
+
+    .admin_auth {
+        right: 52vw;
+        left: 5vw;
+    }
+
+    .search_dict {
+        top: 28vw;
+        right: 53vw;
+    }
+
+    .term {
+        right: 35vw;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    .admin_nav {
+        margin-top: 0.5vw;
+        margin-left: 60vw;
+        width: 200px;
+    }
+
 
     .search_dict {
         top: 28vw;
@@ -290,5 +364,15 @@ input[type="search"]::-webkit-search-results-decoration {
 
     .term {
         right: 35vw;
+    }
+
+    .search_label {
+        font-size: 16px;
+    }
+
+    .add_term {
+        width: 450px;
+        margin-top: 1vw;
+        margin-left: 9vw;
     }
 }

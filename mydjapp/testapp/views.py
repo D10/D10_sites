@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView  # Главный класс DRF, основан на Django view
 from rest_framework import generics
 from django.db import models
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
 
 from .models import News, Category, Reporter  # Наши БД
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, UserContactForm  # Форма для добавления новостей
@@ -29,6 +31,8 @@ from .serializers import (
 
 class ApiNewsListView(generics.ListAPIView):
     serializer_class = NewsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):  # Данная функция будет срабатывать при get запросе
 

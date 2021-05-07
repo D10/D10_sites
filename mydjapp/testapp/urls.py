@@ -33,5 +33,5 @@ urlpatterns = [
     path('review/', ReviewCreateView.as_view()),
     path('rating/', AddStarRatingView.as_view()),
     path('reporters/', ReportersListView.as_view()),
-    path('reporters/<int:pk>', ReportersListView.as_view())
+    path('reporters/<int:pk>', ReportersListView.as_view()),
 ]
